@@ -6,15 +6,19 @@ public class Graph<E>
 
     // MARK: - Properties
 
+    private LinkedQueue<Integer> adjMatrix[];
     private boolean[][] edges;
     private E[] labels;
 
     // MARK: - Constructor
 
-    public Graph(int n)
-    {
+    public Graph(int n) {
         this.edges = new boolean[n][n];
         this.labels = (E[]) new Object[n];
+        adjMatrix = new LinkedQueue[n];
+        for (int i = 0; i < n; i++) {
+            adjMatrix[i] = new LinkedQueue<>();
+        }
     }
 
     // MARK: - Implementation
@@ -34,7 +38,7 @@ public class Graph<E>
     // Add an edge
     public void addEdge(int source, int target)
     {
-        edges[source][target] = true;
+        adjMatrix[source].enqueue(target);
     }
 
     // Obtain a list of neighbors of a specified vertex of this Graph
@@ -76,30 +80,58 @@ public class Graph<E>
         return labels.length;
     }
 
-    public QueueInterface<T> getBreadthFirstTraversal(T origin)
-    {
-        resetVertices();
-        QueueInterface<T> traversalOrder = new LinkedQueue<T>();
-        QueueInterface<VertexInterface<T>> VertexQueue = new LinkedQueue<VertexInterface<T>>();
-        VertexInterface<T> originVertex = vertices.getValue(origin);
-        originVertex.visit();
-        traversalOrder.enqueue(origin);
-        VertexQueue.enqueue(originVertex);
+    public QueueInterface<Integer> getBreadthFirstSearch(int origin) throws Exception {
 
-        while (!VertexQueue.isEmpty())
-        {
-            VertexInterface<T> frontVertex = vertexQueue.dequeue();
-            Iterator<VertexInterface<T>> neighbors = frontVertex.getNeighborIterator();
-            while (neighbors.hasNext())
-            {
-                VertexInterface<T> nextNeighbor = neighbors.next();
-                if (!nextNeighbor.isVisited()) {
-                    nextNeighbor.visit();
-                    traversalOrder.enqueue(nextNeighbor.getLabel());
-                    VertexQueue.enqueue(nextNeighbor);
+        LinkedQueue<Integer> queue = new LinkedQueue<Integer>();
+        boolean visited[] = new boolean[this.size()];
+        int vertex = 0;
+
+        visited[origin] = true;
+        queue.enqueue(origin);
+
+        QueueInterface<Integer> traversal = new LinkedQueue<Integer>();
+
+        while (!queue.isEmpty()) {
+            origin = queue.dequeue();
+            traversal.enqueue(origin);
+
+            for (int i = 0; i < adjMatrix[origin].getSize(); i++) {
+            vertex = adjMatrix[origin].get(i);
+              if (!visited[vertex]) {
+                  visited[vertex] = true;
+                    queue.enqueue(vertex);
                 }
             }
         }
-        return traversalOrder;
+
+        return traversal;
     }
+
+    // Legacy BFS
+//    public QueueInterface<E> getBreadthFirstTraversal(E origin)
+//    {
+//        resetVertices();
+//        QueueInterface<E> traversalOrder = new LinkedQueue<E>();
+//        QueueInterface<Node<E>> VertexQueue = new LinkedQueue<Node<E>>();
+//        VertexInterface<E> originVertex = vertices.getValue(origin);
+//        originVertex.visit();
+//        traversalOrder.enqueue(origin);
+//        VertexQueue.enqueue(originVertex);
+//
+//        while (!VertexQueue.isEmpty())
+//        {
+//            VertexInterface<E> frontVertex = VertexQueue.dequeue();
+//            Iterator<VertexInterface<T>> neighbors = frontVertex.getNeighborIterator();
+//            while (neighbors.hasNext())
+//            {
+//                VertexInterface<E> nextNeighbor = neighbors.next();
+//                if (!nextNeighbor.isVisited()) {
+//                    nextNeighbor.visit();
+//                    traversalOrder.enqueue(nextNeighbor.getLabel());
+//                    VertexQueue.enqueue(nextNeighbor);
+//                }
+//            }
+//        }
+//        return traversalOrder;
+//    }
 }

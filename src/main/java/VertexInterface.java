@@ -1,4 +1,3 @@
-public interface VertexInterface
-{
+public interface VertexInterface<E> {
 
 }
