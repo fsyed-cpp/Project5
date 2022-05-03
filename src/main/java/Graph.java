@@ -107,31 +107,33 @@ public class Graph<E>
         return traversal;
     }
 
-    // Legacy BFS
-//    public QueueInterface<E> getBreadthFirstTraversal(E origin)
-//    {
-//        resetVertices();
-//        QueueInterface<E> traversalOrder = new LinkedQueue<E>();
-//        QueueInterface<Node<E>> VertexQueue = new LinkedQueue<Node<E>>();
-//        VertexInterface<E> originVertex = vertices.getValue(origin);
-//        originVertex.visit();
-//        traversalOrder.enqueue(origin);
-//        VertexQueue.enqueue(originVertex);
-//
-//        while (!VertexQueue.isEmpty())
-//        {
-//            VertexInterface<E> frontVertex = VertexQueue.dequeue();
-//            Iterator<VertexInterface<T>> neighbors = frontVertex.getNeighborIterator();
-//            while (neighbors.hasNext())
-//            {
-//                VertexInterface<E> nextNeighbor = neighbors.next();
-//                if (!nextNeighbor.isVisited()) {
-//                    nextNeighbor.visit();
-//                    traversalOrder.enqueue(nextNeighbor.getLabel());
-//                    VertexQueue.enqueue(nextNeighbor);
-//                }
-//            }
-//        }
-//        return traversalOrder;
-//    }
+    public StackInterface<Integer> getDepthFirstSearch(int origin) throws Exception {
+
+        // Create visited list and stack to maintain order
+        boolean visited[] = new boolean[this.size()];
+        LinkedStack<Integer> orderStack = new LinkedStack<>();
+        LinkedStack<Integer> resultStack = new LinkedStack<>();
+
+        // Add origin
+        orderStack.push(origin);
+        int vertex = 0;
+
+        while(!orderStack.isEmpty()) {
+            origin = orderStack.pop();
+
+            if(visited[origin] == false) {
+                resultStack.push(origin);
+                visited[origin] = true;
+            }
+
+            for (int i = 0; i < adjMatrix[origin].getSize(); i++) {
+                vertex = adjMatrix[origin].get(i);
+                if (!visited[vertex]) {
+                    orderStack.push(vertex);
+                }
+            }
+        }
+
+        return resultStack;
+    }
 }
