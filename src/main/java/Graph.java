@@ -80,8 +80,16 @@ public class Graph<E>
         return labels.length;
     }
 
+    /**
+     * Perform Breadth First Search using Adjacency Matrix
+     * @param origin The origin vertex to start the search
+     * @return A Queue containing the order of the traversal
+     * @throws Exception
+     */
     public QueueInterface<Integer> getBreadthFirstSearch(int origin) throws Exception {
 
+        // Create queue to maintain order, as well as an
+        // array of visited nodes to track visitation
         LinkedQueue<Integer> queue = new LinkedQueue<Integer>();
         boolean visited[] = new boolean[this.size()];
         int vertex = 0;
@@ -89,16 +97,20 @@ public class Graph<E>
         visited[origin] = true;
         queue.enqueue(origin);
 
+        // Queue to return the final traversal order
         QueueInterface<Integer> traversal = new LinkedQueue<Integer>();
 
+        // Go through the queue one by one and add the neighbors,
+        // We will traverse the first level of each neighbor before moving onto the next
+        // FIFO Order so that the first neighbor we find we will find its neighbors
         while (!queue.isEmpty()) {
             origin = queue.dequeue();
             traversal.enqueue(origin);
 
             for (int i = 0; i < adjMatrix[origin].getSize(); i++) {
-            vertex = adjMatrix[origin].get(i);
-              if (!visited[vertex]) {
-                  visited[vertex] = true;
+                vertex = adjMatrix[origin].get(i);
+                if (!visited[vertex]) {
+                    visited[vertex] = true;
                     queue.enqueue(vertex);
                 }
             }
@@ -107,31 +119,44 @@ public class Graph<E>
         return traversal;
     }
 
-    // Legacy BFS
-//    public QueueInterface<E> getBreadthFirstTraversal(E origin)
-//    {
-//        resetVertices();
-//        QueueInterface<E> traversalOrder = new LinkedQueue<E>();
-//        QueueInterface<Node<E>> VertexQueue = new LinkedQueue<Node<E>>();
-//        VertexInterface<E> originVertex = vertices.getValue(origin);
-//        originVertex.visit();
-//        traversalOrder.enqueue(origin);
-//        VertexQueue.enqueue(originVertex);
-//
-//        while (!VertexQueue.isEmpty())
-//        {
-//            VertexInterface<E> frontVertex = VertexQueue.dequeue();
-//            Iterator<VertexInterface<T>> neighbors = frontVertex.getNeighborIterator();
-//            while (neighbors.hasNext())
-//            {
-//                VertexInterface<E> nextNeighbor = neighbors.next();
-//                if (!nextNeighbor.isVisited()) {
-//                    nextNeighbor.visit();
-//                    traversalOrder.enqueue(nextNeighbor.getLabel());
-//                    VertexQueue.enqueue(nextNeighbor);
-//                }
-//            }
-//        }
-//        return traversalOrder;
-//    }
+    /**
+     * Perform Depth-First-Search using a Stack with our Adjacency Matrix
+     * @param origin The original vertex where we start our search
+     * @return A Stack containing the traversal order
+     * @throws Exception
+     */
+    public StackInterface<Integer> getDepthFirstSearch(int origin) throws Exception {
+
+        // Create visited list and stack to maintain order
+        boolean visited[] = new boolean[this.size()];
+        LinkedStack<Integer> orderStack = new LinkedStack<>();
+        LinkedStack<Integer> resultStack = new LinkedStack<>();
+
+        // Add origin
+        orderStack.push(origin);
+        int vertex = 0;
+
+        // Starting from the node, we will add all the next vertex
+        // neighbors to the stack, and keep going until the stack is full
+        // for a single path, and then start popping off the stack to visit
+        while(!orderStack.isEmpty()) {
+            origin = orderStack.pop();
+
+            if(visited[origin] == false) {
+                resultStack.push(origin);
+                visited[origin] = true;
+            }
+
+            // For a vertex "V" - visit all the edges for this vertex's
+            // path and push each vertex onto the stack
+            for (int i = 0; i < adjMatrix[origin].getSize(); i++) {
+                vertex = adjMatrix[origin].get(i);
+                if (!visited[vertex]) {
+                    orderStack.push(vertex);
+                }
+            }
+        }
+
+        return resultStack;
+    }
 }

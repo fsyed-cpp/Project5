@@ -37,5 +37,13 @@ public class Driver {
             Integer item = bfsQueue.dequeue();
             System.out.print(item + " ");
         }
+
+        StackInterface<Integer> dfsStack = graph.getDepthFirstSearch(0);
+
+        System.out.println("DFS Order: ");
+        while (!dfsStack.isEmpty()) {
+            Integer item = dfsStack.pop();
+            System.out.print(item + " ");
+        }
     }
 }
