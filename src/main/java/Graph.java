@@ -1,20 +1,18 @@
-import java.util.Iterator;
-import java.util.Queue;
-
 public class Graph<E>
 {
 
     // MARK: - Properties
 
     private LinkedQueue<Integer> adjMatrix[];
-    private boolean[][] edges;
-    private E[] labels;
+    private boolean[][] edges;      // edges[i][j] is true if there is a vertex from i to j
+    private E[] labels;             // label[i] contains the label for vertex i
+
 
     // MARK: - Constructor
 
     public Graph(int n) {
-        this.edges = new boolean[n][n];
-        this.labels = (E[]) new Object[n];
+        this.edges = new boolean[n][n];     // All values initially false
+        this.labels = (E[]) new Object[n];  // All values initially null
         adjMatrix = new LinkedQueue[n];
         for (int i = 0; i < n; i++) {
             adjMatrix[i] = new LinkedQueue<>();

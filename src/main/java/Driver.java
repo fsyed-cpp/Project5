@@ -40,7 +40,7 @@ public class Driver {
 
         StackInterface<Integer> dfsStack = graph.getDepthFirstSearch(0);
 
-        System.out.println("DFS Order: ");
+        System.out.println("\nDFS Order: ");
         while (!dfsStack.isEmpty()) {
             Integer item = dfsStack.pop();
             System.out.print(item + " ");
