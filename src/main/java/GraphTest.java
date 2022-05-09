@@ -89,28 +89,29 @@ class GraphTest<E>
         graphTest.setLabel(1,"B");
         graphTest.setLabel(2,"C");
         graphTest.setLabel(3,"D");
-        graphTest.setLabel(4,"F");
-        graphTest.setLabel(5,"G");
-        graphTest.setLabel(6,"H");
-        graphTest.setLabel(7,"I");
+        graphTest.setLabel(4,"E");
+        graphTest.setLabel(5,"F");
+        graphTest.setLabel(6,"G");
+        graphTest.setLabel(7,"H");
+        graphTest.setLabel(8,"I");
 
         // Act
-        graphTest.addEdge(0,2);
+        graphTest.addEdge(0,1);
         graphTest.addEdge(0,3);
         graphTest.addEdge(0,4);
         graphTest.addEdge(1,4);
-        graphTest.addEdge(2,1);
-        graphTest.addEdge(3,5);
-        graphTest.addEdge(5,7);
-        graphTest.addEdge(7,8);
-        graphTest.addEdge(8,5);
-        graphTest.addEdge(5,2);
+        graphTest.addEdge(3,6);
         graphTest.addEdge(4,5);
         graphTest.addEdge(4,7);
-        graphTest.addEdge(2,5);
+        graphTest.addEdge(6,7);
+        graphTest.addEdge(5,3);
+        graphTest.addEdge(5,7);
+        graphTest.addEdge(7,8);
+        graphTest.addEdge(2,1);
+        graphTest.addEdge(8,5);
 
         // Assert
-        assertEquals("ABDEGFHCI", "ABDEGFHCI");
+        assertNotEquals("ABCDEFGHI", "ABDEGFHCI");
     }
 
     @org.junit.jupiter.api.Test
@@ -119,25 +120,26 @@ class GraphTest<E>
         graphTest.setLabel(1,"B");
         graphTest.setLabel(2,"C");
         graphTest.setLabel(3,"D");
-        graphTest.setLabel(4,"F");
-        graphTest.setLabel(5,"G");
-        graphTest.setLabel(6,"H");
-        graphTest.setLabel(7,"I");
+        graphTest.setLabel(4,"E");
+        graphTest.setLabel(5,"F");
+        graphTest.setLabel(6,"G");
+        graphTest.setLabel(7,"H");
+        graphTest.setLabel(8,"I");
 
         // Act
-        graphTest.addEdge(0,2);
+        graphTest.addEdge(0,1);
         graphTest.addEdge(0,3);
         graphTest.addEdge(0,4);
         graphTest.addEdge(1,4);
-        graphTest.addEdge(2,1);
-        graphTest.addEdge(3,5);
-        graphTest.addEdge(5,7);
-        graphTest.addEdge(7,8);
-        graphTest.addEdge(8,5);
-        graphTest.addEdge(5,2);
+        graphTest.addEdge(3,6);
         graphTest.addEdge(4,5);
         graphTest.addEdge(4,7);
-        graphTest.addEdge(2,5);
+        graphTest.addEdge(6,7);
+        graphTest.addEdge(5,3);
+        graphTest.addEdge(5,7);
+        graphTest.addEdge(7,8);
+        graphTest.addEdge(2,1);
+        graphTest.addEdge(8,5);
 
         // Assert
         assertNotEquals("ABDEGFHCI", "ABEFCHIDG");
